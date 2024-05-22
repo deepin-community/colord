@@ -1494,7 +1494,7 @@ colord_icc_func (void)
 	/* check profile properties */
 	g_assert_cmpint (cd_icc_get_size (icc), ==, 25244);
 	g_assert_cmpstr (cd_icc_get_checksum (icc), ==, "9ace8cce8baac8d492a93a2a232d7702");
-	g_assert_cmpfloat (cd_icc_get_version (icc), ==, 3.4);
+	g_assert_cmpfloat_with_epsilon (cd_icc_get_version (icc), 3.4, 0.01);
 	g_assert (g_str_has_suffix (cd_icc_get_filename (icc), "ibm-t61.icc"));
 	g_assert_cmpint (cd_icc_get_kind (icc), ==, CD_PROFILE_KIND_DISPLAY_DEVICE);
 	g_assert_cmpint (cd_icc_get_colorspace (icc), ==, CD_COLORSPACE_RGB);
@@ -1727,7 +1727,7 @@ colord_icc_save_func (void)
 	g_object_unref (file);
 
 	/* verify changed values */
-	g_assert_cmpfloat (cd_icc_get_version (icc), ==, 2.09);
+	g_assert_cmpfloat_with_epsilon (cd_icc_get_version (icc), 2.09, 0.001);
 	g_assert_cmpint (cd_icc_get_kind (icc), ==, CD_PROFILE_KIND_OUTPUT_DEVICE);
 	g_assert_cmpint (cd_icc_get_colorspace (icc), ==, CD_COLORSPACE_XYZ);
 	g_assert_cmpstr (cd_icc_get_metadata_item (icc, "SelfTest"), ==, "true");
@@ -2072,7 +2072,7 @@ colord_icc_store_func (void)
 	g_assert_cmpint (array->len, ==, 2);
 	g_ptr_array_unref (array);
 
-	g_unlink (file2);
+	(void)g_unlink (file2);
 
 	/* wait for file notifier */
 	cd_test_loop_run_with_timeout (5000);
@@ -2082,7 +2082,7 @@ colord_icc_store_func (void)
 	g_assert_cmpint (removed, ==, 1);
 
 	/* remove already-exists.icc */
-	g_unlink (file1);
+	(void)g_unlink (file1);
 
 	/* wait for file notifier */
 	cd_test_loop_run_with_timeout (5000);
@@ -2352,7 +2352,7 @@ int
 main (int argc, char **argv)
 {
 	g_test_init (&argc, &argv, NULL);
-	g_setenv ("G_MESSAGES_DEBUG", "all", TRUE);
+	(void)g_setenv ("G_MESSAGES_DEBUG", "all", TRUE);
 
 	/* only critical and error are fatal */
 	g_log_set_fatal_mask (NULL, G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL);

@@ -1729,7 +1729,7 @@ cd_util_device_set_enabled (CdUtilPrivate *priv, gchar **values, GError **error)
 	if (!cd_device_connect_sync (device, NULL, error))
 		return FALSE;
 	return cd_device_set_enabled_sync (device,
-					   g_strcmp0 (values[1], "True") == 0,
+					   g_ascii_strncasecmp (values[1], "True", 4) == 0,
 					   NULL,
 					   error);
 }
@@ -2242,7 +2242,7 @@ main (int argc, char *argv[])
 
 	/* set verbose? */
 	if (verbose) {
-		g_setenv ("COLORD_VERBOSE", "1", FALSE);
+		(void)g_setenv ("COLORD_VERBOSE", "1", FALSE);
 	} else {
 		g_log_set_handler (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 				   cd_util_ignore_cb, NULL);

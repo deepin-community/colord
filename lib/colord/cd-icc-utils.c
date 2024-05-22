@@ -1,6 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
  * Copyright (C) 2013 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2020 NVIDIA CORPORATION
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -94,7 +95,7 @@ cd_icc_utils_get_coverage_calc (CdIcc *icc,
 	/* set gamut alarm to 0xffff */
 	alarm_codes = g_new0 (cmsUInt16Number, cmsMAXCHANNELS);
 	alarm_codes[0] = 0xffff;
-	cmsSetAlarmCodes (alarm_codes);
+	cmsSetAlarmCodesTHR(cd_icc_get_context (icc), alarm_codes);
 
 	/* slice profile in regular intervals */
 	data = g_new0 (cmsFloat32Number, data_len * 3);

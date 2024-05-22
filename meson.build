@@ -1,5 +1,5 @@
 project('colord', 'c',
-  version : '1.4.5',
+  version : '1.4.7',
   license : 'LGPL-2.1+',
   meson_version : '>=0.52.0',
   default_options : ['c_std=c99']
@@ -65,6 +65,9 @@ test_args = [
   '-Wmissing-prototypes',
   '-Wnested-externs',
   '-Wno-discarded-qualifiers',
+  '-Wno-cast-function-type',
+  '-Wno-deprecated-declarations',
+  '-Wno-enum-conversion',
   '-Wno-missing-field-initializers',
   '-Wno-strict-aliasing',
   '-Wno-suggest-attribute=format',
@@ -109,7 +112,7 @@ add_global_link_arguments(
 )
 
 gio = dependency('gio-2.0', version : '>= 2.45.8')
-glib = dependency('glib-2.0')
+glib = dependency('glib-2.0', version : '>= 2.58')
 gmodule = dependency('gmodule-2.0')
 giounix = dependency('gio-unix-2.0', version : '>= 2.45.8')
 lcms = dependency('lcms2', version : '>= 2.6')
@@ -176,10 +179,6 @@ if get_option('vapi')
   vapigen = find_program('vapigen')
 endif
 
-if get_option('reverse')
-  conf.set('CD_BUILD_REVERSE', '1')
-endif
-
 if get_option('daemon')
 conf.set_quoted('DAEMON_USER', get_option('daemon_user'))
 if get_option('daemon_user') == 'root'
@@ -215,6 +214,11 @@ add_project_arguments('-DCD_COMPILATION', language: 'c')
 
 # Needed for realpath() and PATH_MAX
 add_project_arguments('-D_XOPEN_SOURCE=700', language : 'c')
+# Needed to opt-in to 64-bit time_t on glibc. We pass 64-bit pointers into
+# gmtime_r. We have to set F_O_B here despite Meson defaulting to it because
+# it doesn't get passed down to introspection otherwise.
+add_project_arguments('-D_FILE_OFFSET_BITS=64', language : 'c')
+add_project_arguments('-D_TIME_BITS=64', language : 'c')
 
 prefix = get_option('prefix')
 

@@ -1,13 +1,13 @@
-lib/systemd/system/*.service
-lib/udev/rules.d/
+${env:deb_systemd_system_unit_dir}/*.service
+${env:deb_udev_dir}/rules.d/
 usr/bin/
 usr/lib/*/colord-plugins
 usr/lib/*/colord-sensors/libcolord_sensor_colorhug.so
 usr/lib/*/colord-sensors/libcolord_sensor_dtp94.so
 usr/lib/*/colord-sensors/libcolord_sensor_dummy.so
 usr/lib/*/colord-sensors/libcolord_sensor_huey.so
-usr/lib/systemd/user/
-usr/lib/tmpfiles.d/
+${env:deb_systemd_user_unit_dir}/
+${env:deb_systemd_tmpfiles_dir}/
 usr/libexec/colord
 usr/libexec/colord-sane
 usr/libexec/colord-session

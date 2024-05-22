@@ -1,3 +1,106 @@
+colord (1.4.7-1) unstable; urgency=medium
+
+  * New upstream release
+  * Drop alternate dependency on policykit-1
+  * Drop unused Build-Depends: systemd (Closes: #1060555)
+  * Drop remaining patch: applied in new release
+  * Cherry-pick various post-release fixes
+
+ -- Jeremy Bícha <jbicha@ubuntu.com>  Sat, 17 Feb 2024 14:31:19 -0500
+
+colord (1.4.6-5) unstable; urgency=medium
+
+  * Change Maintainer to freedesktop team with former Maintainer's approval
+    (Closes: #1053176)
+  * Cherry-pick patch to update ColorHug URL
+  * Add debian/upstream/metadata
+  * Remove an obsolete maintscript entry
+  * Update standards version to 4.6.2, no changes needed
+
+ -- Jeremy Bícha <jbicha@ubuntu.com>  Thu, 04 Jan 2024 14:28:05 -0500
+
+colord (1.4.6-4) unstable; urgency=medium
+
+  [ Helmut Grohne ]
+  * Fix FTBFS when systemd.pc changes systemdsystemunitdir. (Closes: #1053113)
+
+  [ Christopher James Halse Rogers ]
+  * debian/rules:
+    debian/colord.install:
+    - Also pull the rest of the install paths out of systemd.pc/udev.pc
+
+ -- Christopher James Halse Rogers <raof@ubuntu.com>  Wed, 15 Nov 2023 16:10:23 +1100
+
+colord (1.4.6-3) unstable; urgency=medium
+
+  * Team upload (Closes: #1032263)
+  * Simplify handling of arch:all/arch:any builds (Closes: #1040682)
+
+ -- Jeremy Bícha <jbicha@ubuntu.com>  Wed, 13 Sep 2023 11:07:00 -0400
+
+colord (1.4.6-2.2) unstable; urgency=medium
+
+  * Non-maintainer upload
+
+  [ Debian Janitor ]
+  * d/copyright: Refer to common license file for CC0-1.0
+  * d/control: Use secure URI in Homepage field
+  * d/colord.maintscript: Remove obsolete maintscript entries
+  * d/colord.preinst: Remove empty maintainer script
+
+  [ Simon McVittie ]
+  * d/control: Depend on polkitd | policykit-1, not just policykit-1.
+    This allows colord to be installed without pulling in the transitional
+    package policykit-1, which in turn is enough to avoid policykit-1 being
+    included in new bookworm installations of GNOME, KDE Plasma and Xfce.
+    (Closes: #1025554, #1025379)
+  * d/tests/installed-tests: Fix autopkgtest failure if polkitd-pkla is
+    not installed.
+    Installing policykit-1 is no longer guaranteed to provide support for
+    the legacy .pkla rules language.
+  * d/control: Build-depend on libjson-glib-dev.
+    This works around a missing dependency by libgusb-dev (see #1032183)
+    and can be reverted when that bug is fixed.
+
+ -- Simon McVittie <smcv@debian.org>  Thu, 02 Mar 2023 10:45:31 +0000
+
+colord (1.4.6-2.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * source only upload to enable migration
+
+ -- Paul Gevers <elbrus@debian.org>  Sat, 03 Dec 2022 07:26:35 +0100
+
+colord (1.4.6-2) unstable; urgency=medium
+
+  * debian/control:
+    - Build-Depend on polkitd. Fixes FTBFS (Closes: #1022355)
+    - Bump Standards-Version to 4.6.1 (no changes needed)
+  * debian/rules:
+  * debian/control:
+  * debian/not-installed:
+    - Re-enable Argyll support. Argyll no longer appears in danger of
+      being removed from the archive.
+  * debian/copyright:
+    - Fix misspelling of Richard Hughes' name
+    - Drop no-longer-necessary Files: stanzas
+    - Include full license details of data/profiles
+
+ -- Christopher James Halse Rogers <raof@ubuntu.com>  Tue, 01 Nov 2022 11:02:35 +0100
+
+colord (1.4.6-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream release
+  * Drop patch: applied in new release
+  * debian/control: Bump minimum glib to 2.58
+  * debian/control: Drop obsolete Pre-Depends
+  * Build-Depend on dh-sequence-gir
+  * Simplify debian/rules a bit
+  * debian/rules: Don't make installed-tests data executable
+
+ -- Jeremy Bicha <jeremy.bicha@canonical.com>  Tue, 22 Feb 2022 08:25:46 -0500
+
 colord (1.4.5-3) unstable; urgency=medium
 
   * debian/rules:

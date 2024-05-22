@@ -33,7 +33,6 @@ Ensure the following packages are installed:
 * glib2-devel
 * gobject-introspection-devel
 * gtk-doc
-* intltool
 * lcms2-devel
 * libgudev1-devel
 * libgusb-devel
@@ -64,3 +63,9 @@ Compiling for Microsoft Windows
             --without-pic                           \
             --with-systemdsystemunitdir=/tmp        \
             --with-udevrulesdir=/tmp && make
+
+Contributing
+============
+
+Patches are accepted in form of pull requests for repository
+https://github.com/hughsie/colord
