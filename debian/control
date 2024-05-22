@@ -1,17 +1,20 @@
 Source: colord
 Priority: optional
-Maintainer: Christopher James Halse Rogers <raof@ubuntu.com>
+Maintainer: Debian freedesktop.org maintainers <pkg-freedesktop-maintainers@lists.alioth.debian.org>
+Uploaders: Christopher James Halse Rogers <raof@ubuntu.com>,
+ Jeremy Bícha <jbicha@ubuntu.com>,
 Build-Depends:
  bash-completion,
  debhelper-compat (= 13),
+ dh-sequence-gir,
  docbook-xsl-ns,
- gobject-introspection,
  gtk-doc-tools,
  libdbus-1-dev,
  libgirepository1.0-dev,
- libglib2.0-dev,
+ libglib2.0-dev (>= 2.58),
  libgudev-1.0-dev,
  libgusb-dev (>= 0.2.7),
+ libjson-glib-dev,
  liblcms2-dev,
  libpolkit-gobject-1-dev (>= 0.103),
  libsane-dev [linux-any],
@@ -19,14 +22,18 @@ Build-Depends:
  libsystemd-dev [linux-any],
  libudev-dev,
  meson (>= 0.52.0),
+ pkgconf,
+ polkitd,
  shared-mime-info <!nocheck>,
- systemd [linux-any],
+ systemd-dev [linux-any],
  valac (>= 0.20),
  xsltproc,
+Build-Depends-Indep:
+ argyll [linux-any],
 Rules-Requires-Root: no
-Standards-Version: 4.5.0
+Standards-Version: 4.6.2
 Section: graphics
-Homepage: http://www.freedesktop.org/software/colord/
+Homepage: https://www.freedesktop.org/software/colord/
 Vcs-Git: https://salsa.debian.org/debian/colord.git
 Vcs-Browser: https://salsa.debian.org/debian/colord
 
@@ -36,7 +43,7 @@ Architecture: linux-any
 Depends:
  gir1.2-colord-1.0 (= ${binary:Version}),
  libcolord2 (= ${binary:Version}),
- libglib2.0-dev,
+ libglib2.0-dev (>= 2.58),
  ${misc:Depends},
 Multi-Arch: same
 Description: system service to manage device colour profiles -- development files
@@ -57,8 +64,6 @@ Depends:
  ${shlibs:Depends},
 Suggests:
  colord,
-Pre-Depends:
- ${misc:Pre-Depends},
 Multi-Arch: same
 Description: system service to manage device colour profiles -- runtime
  colord is a system service that makes it easy to manage, install and generate
@@ -76,11 +81,11 @@ Depends:
  acl,
  adduser,
  colord-data,
- policykit-1 (>= 0.103),
+ polkitd,
  ${misc:Depends},
  ${shlibs:Depends},
-Pre-Depends:
- ${misc:Pre-Depends},
+Suggests:
+ colord-sensor-argyll,
 Multi-Arch: foreign
 Description: system service to manage device colour profiles -- system daemon
  colord is a system service that makes it easy to manage, install and generate
@@ -90,6 +95,48 @@ Description: system service to manage device colour profiles -- system daemon
  store, and a mechanism for session applications to set system policy.
  .
  This package contains the dbus-activated colord system daemon.
+
+Package: colord-sensor-argyll
+Architecture: linux-any
+Depends:
+ argyll,
+ colord,
+ ${misc:Depends},
+ ${shlibs:Depends},
+Replaces:
+ colord (<< 1.2.11-1~),
+Breaks:
+ colord (<< 1.2.11-1~),
+Enhances:
+ colord,
+Description: system service to manage device colour profiles -- argyll sensor plugin
+ colord is a system service that makes it easy to manage, install and generate
+ colour profiles to accurately colour manage input and output devices.
+ .
+ It provides a D-Bus API for system frameworks to query, a persistent data
+ store, and a mechanism for session applications to set system policy.
+ .
+ This package contains a sensor plugin that uses the Argyll tools, allowing
+ colord to support colourimeters that are supported by Argyll.
+
+# Package: colord-argyll-plugin
+# Architecture: any
+# Depends:
+#  ${shlibs:Depends},
+#  ${misc:Depends},
+#  colord,
+# Pre-Depends: ${misc:Pre-Depends}
+# Multi-Arch: same
+# Enhances: argyll (>= 1.6)
+# Description: system service to manage device colour profiles -- argyll integration
+#  colord is a system service that makes it easy to manage, install and generate
+#  colour profiles to accurately colour manage input and output devices.
+#  .
+#  It provides a D-Bus API for system frameworks to query, a persistent data
+#  store, and a mechanism for session applications to set system policy.
+#  .
+#  This package contains an Argyll integration plugin, allowing Argyll tools to
+#  lookup, load, and store profiles using colord.
 
 Package: colord-data
 Architecture: all
@@ -152,8 +199,6 @@ Architecture: linux-any
 Depends:
  ${misc:Depends},
  ${shlibs:Depends},
-Pre-Depends:
- ${misc:Pre-Depends},
 Multi-Arch: same
 Description: library to access the ColorHug colourimeter -- runtime
  libcolorhug is a gobject-based library for using the ColorHug display
@@ -184,8 +229,6 @@ Depends:
  colord,
  ${misc:Depends},
  ${shlibs:Depends},
-Pre-Depends:
- ${misc:Pre-Depends},
 Multi-Arch: foreign
 Description: system service to manage device colour profiles -- test suite
  colord is a system service that makes it easy to manage, install and generate

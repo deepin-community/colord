@@ -3,7 +3,7 @@ set -eu
 
 # Override polkit checks for colord daemon. Normally this would allow
 # locally-logged-in users to do things, but our autopkgtest user isn't locally-logged-in.
-cp debian/tests/overrides/99-allow-all-colord.pkla /etc/polkit-1/localauthority/90-mandatory.d
+cp debian/tests/overrides/99-allow-all-colord.rules /etc/polkit-1/rules.d/
 
 mkdir -p /etc/systemd/system/colord.service.d/
 cp debian/tests/overrides/colord.service /etc/systemd/system/colord.service.d/10-add-dummy-sensor.conf
