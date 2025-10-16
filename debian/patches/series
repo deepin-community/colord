@@ -1,5 +1,0 @@
-Fix-writing-to-the-database-with-ProtectSystem-strict.patch
-Fix-USB-scanners-not-working-with-RestrictAddressFamilies.patch
-fix-NULL-passed-to-free-with-sqlite3-error_msg-pointers.patch
-use-char-instead-of-gchar-for-pointers-passed-to-sqlite3_.patch
-use-g_autoptr-again-but-with-a-custom-CLEANUP_FUNC.patch

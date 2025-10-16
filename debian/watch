@@ -1,4 +1,4 @@
-version=4
-
-# 1.1 is a development branch; only notify of stable 1.0 releases until 1.2
-opts="uversionmangle=s/^1.1/0.0/, pgpmode=auto" https://www.freedesktop.org/software/colord/releases/colord-([\d\.]+)\.tar\.xz
+Version: 5
+Source: https://www.freedesktop.org/software/colord/releases/
+Matching-Pattern: @PACKAGE@@ANY_VERSION@@ARCHIVE_EXT@
+Pgp-Mode: auto

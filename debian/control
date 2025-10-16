@@ -7,7 +7,10 @@ Build-Depends:
  bash-completion,
  debhelper-compat (= 13),
  dh-sequence-gir,
+ dh-sequence-installsysusers,
  docbook-xsl-ns,
+ gir1.2-gio-2.0-dev,
+ gir1.2-gobject-2.0-dev,
  gtk-doc-tools,
  libdbus-1-dev,
  libgirepository1.0-dev,
@@ -25,13 +28,12 @@ Build-Depends:
  pkgconf,
  polkitd,
  shared-mime-info <!nocheck>,
- systemd-dev [linux-any],
+ systemd-dev,
  valac (>= 0.20),
  xsltproc,
 Build-Depends-Indep:
  argyll [linux-any],
-Rules-Requires-Root: no
-Standards-Version: 4.6.2
+Standards-Version: 4.7.2
 Section: graphics
 Homepage: https://www.freedesktop.org/software/colord/
 Vcs-Git: https://salsa.debian.org/debian/colord.git
@@ -41,10 +43,11 @@ Package: libcolord-dev
 Section: libdevel
 Architecture: linux-any
 Depends:
- gir1.2-colord-1.0 (= ${binary:Version}),
  libcolord2 (= ${binary:Version}),
  libglib2.0-dev (>= 2.58),
+ ${gir:Depends},
  ${misc:Depends},
+Provides: ${gir:Provides},
 Multi-Arch: same
 Description: system service to manage device colour profiles -- development files
  colord is a system service that makes it easy to manage, install and generate
@@ -161,7 +164,6 @@ Architecture: linux-any
 Depends:
  ${gir:Depends},
  ${misc:Depends},
- ${shlibs:Depends},
 Multi-Arch: same
 Description: GObject introspection data for the colord library
  This package contains introspection data for libcolord, a gobject-based
@@ -174,12 +176,13 @@ Package: libcolorhug-dev
 Section: libdevel
 Architecture: linux-any
 Depends:
- gir1.2-colorhug-1.0 (= ${binary:Version}),
  libcolord-dev,
  libcolorhug2 (= ${binary:Version}),
  libglib2.0-dev,
  libgusb-dev (>= 0.2.7),
+ ${gir:Depends},
  ${misc:Depends},
+Provides: ${gir:Provides}
 Multi-Arch: same
 Breaks:
  colorhug-client (<< 0.2.0-3),
@@ -214,7 +217,6 @@ Architecture: linux-any
 Depends:
  ${gir:Depends},
  ${misc:Depends},
- ${shlibs:Depends},
 Multi-Arch: same
 Description: GObject introspection data for the colorhug library
  This package contains introspection data for libcolorhug, a gobject-based

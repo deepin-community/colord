@@ -7,6 +7,7 @@ usr/lib/*/colord-sensors/libcolord_sensor_dtp94.so
 usr/lib/*/colord-sensors/libcolord_sensor_dummy.so
 usr/lib/*/colord-sensors/libcolord_sensor_huey.so
 ${env:deb_systemd_user_unit_dir}/
+${env:deb_systemd_sysusers_dir}/
 ${env:deb_systemd_tmpfiles_dir}/
 usr/libexec/colord
 usr/libexec/colord-sane
@@ -15,4 +16,5 @@ usr/share/bash-completion
 usr/share/dbus-1
 usr/share/glib-2.0/schemas
 usr/share/man
+usr/share/metainfo
 usr/share/polkit-1
