@@ -1,5 +1,5 @@
 project('colord', 'c',
-  version : '1.4.7',
+  version : '1.4.8',
   license : 'LGPL-2.1+',
   meson_version : '>=0.52.0',
   default_options : ['c_std=c99']
@@ -130,6 +130,18 @@ if get_option('systemd')
   systemd = dependency('systemd')
   libsystemd = dependency('libsystemd')
   conf.set('HAVE_SYSTEMD', '1')
+  systemd_root_prefix = get_option('systemd_root_prefix')
+  if systemd_root_prefix == ''
+    systemduserunitdir = systemd.get_variable(pkgconfig: 'systemduserunitdir')
+    systemdsystemunitdir = systemd.get_variable(pkgconfig: 'systemdsystemunitdir')
+    tmpfilesdir = systemd.get_variable(pkgconfig: 'tmpfilesdir')
+    sysusersdir = systemd.get_variable(pkgconfig: 'sysusersdir')
+  else
+    systemduserunitdir = systemd.get_variable(pkgconfig: 'systemduserunitdir', pkgconfig_define: ['rootprefix', systemd_root_prefix])
+    systemdsystemunitdir = systemd.get_variable(pkgconfig: 'systemdsystemunitdir', pkgconfig_define: ['rootprefix', systemd_root_prefix])
+    tmpfilesdir = systemd.get_variable(pkgconfig: 'tmpfilesdir', pkgconfig_define: ['rootprefix', systemd_root_prefix])
+    sysusersdir = systemd.get_variable(pkgconfig: 'sysusersdir', pkgconfig_define: ['rootprefix', systemd_root_prefix])
+  endif
 endif
 
 if cc.has_header('pwd.h')
@@ -280,3 +292,7 @@ endif
 
 meson.add_install_script('meson_post_install.sh',
                          localstatedir, get_option('daemon_user'))
+
+install_data('org.freedesktop.colord.metainfo.xml',
+  install_dir : join_paths(datadir, 'metainfo')
+  )

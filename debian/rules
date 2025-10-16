@@ -19,12 +19,14 @@ confflags = \
  -Dinstalled_tests=true \
  -Dargyllcms_sensor=true \
 
+export deb_systemd_tmpfiles_dir = $(shell pkgconf --variable=tmpfiles_dir systemd | sed s,^/,,)
+export deb_systemd_sysusers_dir = $(shell pkgconf --variable=sysusers_dir systemd | sed s,^/,,)
+
 ifeq ($(DEB_HOST_ARCH_OS),linux)
 	confflags += -Dsane=true
 	indep_flags = -Dprint_profiles=true
 	export deb_systemd_system_unit_dir = $(shell pkgconf --variable=systemd_system_unit_dir systemd | sed s,^/,,)
 	export deb_systemd_user_unit_dir = $(shell pkgconf --variable=systemd_user_unit_dir systemd | sed s,^/,,)
-	export deb_systemd_tmpfiles_dir = $(shell pkgconf --variable=tmpfiles_dir systemd | sed s,^/,,)
 	export deb_udev_dir = $(shell pkgconf --variable=udev_dir udev | sed s,^/,,)
 else
 	confflags += -Dsane=false -Dsystemd=false -Dudev_rules=false
@@ -42,8 +44,8 @@ execute_after_dh_fixperms-arch:
 
 execute_before_dh_install:
 	# Exclude systemd and udev related files
-	grep -E -v 'deb_systemd_system_unit_dir|deb_systemd_user_unit_dir|deb_udev_dir|deb_tmpfiles_dir' debian/colord.install > debian/colord.install.kfreebsd
-	grep -E -v 'deb_systemd_system_unit_dir|deb_systemd_user_unit_dir|deb_udev_dir|deb_tmpfiles_dir' debian/colord.install > debian/colord.install.hurd
+	grep -E -v 'deb_systemd_system_unit_dir|deb_systemd_user_unit_dir|deb_udev_dir' debian/colord.install > debian/colord.install.kfreebsd
+	grep -E -v 'deb_systemd_system_unit_dir|deb_systemd_user_unit_dir|deb_udev_dir' debian/colord.install > debian/colord.install.hurd
 
 execute_before_dh_clean:
 	rm -f debian/colord.install.kfreebsd

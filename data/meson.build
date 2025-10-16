@@ -24,7 +24,7 @@ if get_option('systemd')
     output : 'colord.service',
     configuration : con2,
     install: true,
-    install_dir: systemd.get_pkgconfig_variable('systemdsystemunitdir'),
+    install_dir: systemdsystemunitdir,
   )
 
   configure_file(
@@ -32,8 +32,18 @@ if get_option('systemd')
     output : 'colord.conf',
     configuration : con2,
     install: true,
-    install_dir: systemd.get_pkgconfig_variable('tmpfilesdir')
+    install_dir: tmpfilesdir,
   )
+
+  if get_option('daemon_user') != 'root'
+    configure_file(
+      input : 'colord.sysusers.conf.in',
+      output : 'colord-sysusers.conf',
+      configuration : con2,
+      install: true,
+      install_dir: sysusersdir,
+    )
+  endif
 endif
 
 # replace @servicedir@ and @daemon_user@
